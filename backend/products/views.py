@@ -5,7 +5,7 @@ from .serializers import ProductSerializer
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
-class ProductCreateAPIView(generics.CreateAPIView):
+class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -26,10 +26,9 @@ def create_product(sender, instance, created, **kwargs):
         print('Product created!')
         print('****************')
 
-# Connect the signal receiver
 post_save.connect(create_product, sender=Product)
 
-product_create_view = ProductCreateAPIView.as_view()
+product_list_create_view = ProductListCreateAPIView.as_view()
 
 class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
@@ -38,3 +37,11 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     # Product.objects.get(pk = pk)
 
 product_detail_view = ProductDetailAPIView.as_view()
+
+class ProductListAPIView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    # lookup_field = 'pk'
+    # Product.objects.get(pk = pk)
+
+product_list_view = ProductListAPIView.as_view()
