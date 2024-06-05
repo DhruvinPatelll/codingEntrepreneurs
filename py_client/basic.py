@@ -1,6 +1,6 @@
 import requests
 
-endpoint = "http://127.0.0.1:8005/api_home/"
+endpoint = "http://127.0.0.1:8005/api/"
 # endpoint = "https://httpbin.org/status/200/"
 # endpoint = "https://httpbin.org/"
 
