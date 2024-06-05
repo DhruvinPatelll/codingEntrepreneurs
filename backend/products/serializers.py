@@ -10,4 +10,9 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ["title", "description", "price", "sale_price", "discount"]
 
     def get_discount(self, obj):
+        if not hasattr(obj,'id'):
+            return None
+        if not isinstance(self, Product):
+            return None
         return obj.get_discount()
+        
