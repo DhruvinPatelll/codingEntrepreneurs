@@ -10,9 +10,9 @@ from products.serializers import ProductSerializer
 
 @api_view(["POST"])
 def api_home(request, *args, **kwargs):
-    serializer = ProductSerializer(data = request.data)
+    serializer = ProductSerializer(data=request.data)
     if serializer.is_valid():
-        instance=serializer.save()
+        instance = serializer.save()
         print(instance)
         return Response(serializer.data)
-    return Response({"invalid":"Not appropriate data"},status=400)
+    return Response({"invalid": "Not appropriate data"}, status=400)

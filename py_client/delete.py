@@ -1,7 +1,8 @@
 import requests
+
 product_id = input("What is your product ID?\n")
 
-try: 
+try:
     product_id = int(product_id)
 except:
     product_id = None
