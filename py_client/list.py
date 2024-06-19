@@ -4,7 +4,9 @@ from getpass import getpass
 endpoint = "http://127.0.0.1:8005/api/auth/"
 username = input("Enter your username:\n")
 password = getpass("Enter your password:\n")
-auth_response = requests.post(endpoint, json={"username": username, "password": password})
+auth_response = requests.post(
+    endpoint, json={"username": username, "password": password}
+)
 print(auth_response.json())
 if auth_response.status_code == 200:
     token = auth_response.json().get("token")

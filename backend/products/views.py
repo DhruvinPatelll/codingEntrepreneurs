@@ -69,6 +69,7 @@ class ProductDestroyAPIView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = "pk"
+    permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
     # Product.objects.get(pk = pk)
 
     def perform_destroy(self, instance):
