@@ -20,7 +20,6 @@ class IsStaffEditorPermission(permissions.DjangoModelPermissions):
 
     # def has_object_permission(self, request, view, obj):
     #     user = request.user
-    #     print(user.get_all_permissions())
     #     if user.is_staff:
     #         if user.has_perm("products.add_Product"):     #app_name.action_model_name
     #             return True
