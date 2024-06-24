@@ -1,17 +1,20 @@
 from rest_framework import serializers
 from .models import Product
 from rest_framework.reverse import reverse
+from . import validators
+
 
 
 class ProductSerializer(serializers.ModelSerializer):
     discount = serializers.SerializerMethodField(read_only=True)
     url = serializers.SerializerMethodField(read_only=True)
     edit_url = serializers.SerializerMethodField(read_only=True)
+    title = serializers.CharField(validators=[validators.validate_no_hello, validators.unique_product_title])
 
 
     class Meta:
         model = Product
-        fields = ["edit_url","url","pk", "title", "owner", "description", "price", "sale_price", "discount"]
+        fields = ["edit_url", "url", "pk", "title", "description", "price", "sale_price", "discount"]
 
     def get_discount(self, obj):
         if not hasattr(obj, "id"):

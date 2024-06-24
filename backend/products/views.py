@@ -24,18 +24,31 @@ class ProductListCreateAPIView(StaffEditorPermissionMixin,generics.ListCreateAPI
         if description is None:
             description = title
         price = serializer.validated_data.get("price")
-        instance = serializer.save(description=description)
+        serializer.save(user=self.request.user, description=description)
+
+class UserQuerySetMixin():
+    user_field = 'user'
+    allow_staff_view = False
+
+    def get_queryset(self,*args,**kwargs):
+        user = self.request.user
+        lookup_data = {}
+        lookup_data[self.user_field] = user
+        qs = super().get_queryset(*args,**kwargs)
+        if self.allow_staff_view and user.is_staff:
+            return qs
+        return qs.filter(**lookup_data)
 
 
-@receiver(post_save, sender=Product)
-def create_product(sender, instance, created, **kwargs):
-    if created:
-        print("****************")
-        print("Product created!")
-        print("****************")
+# @receiver(post_save, sender=Product)
+# def create_product(sender, instance, created, **kwargs):
+#     if created:
+#         print("****************")
+#         print("Product created!")
+#         print("****************")
 
 
-post_save.connect(create_product, sender=Product)
+# post_save.connect(create_product, sender=Product)
 
 product_list_create_view = ProductListCreateAPIView.as_view()
 
@@ -84,8 +97,9 @@ class ProductListAPIView(StaffEditorPermissionMixin, generics.ListAPIView):
     # lookup_field = 'pk'
     # Product.objects.get(pk = pk)
 
-
 product_list_view = ProductListAPIView.as_view()
+
+
 # class ProductMixinView(mixins.ListModelMixin,generics.GenericAPIView):
 #     queryset = Product.objects.all()
 #     serializer_class = ProductSerializer
